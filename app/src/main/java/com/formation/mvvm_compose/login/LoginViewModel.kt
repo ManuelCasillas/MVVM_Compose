@@ -17,11 +17,6 @@ class LoginViewModel: ViewModel() {
 
         state = UiState(
             loggedIn = isUserValid && isPassValid,
-            message = when {
-                !isUserValid -> "Invalid User"
-                !isPassValid -> "Invalid password"
-                else -> null
-            },
             isUserError = when {
                 !isUserValid -> true
                 else -> false
@@ -42,7 +37,6 @@ class LoginViewModel: ViewModel() {
 
     data class UiState(
         val loggedIn: Boolean = false,
-        val message: String? = "",
         val isUserError: Boolean = false,
         val isPassError: Boolean = false
     )

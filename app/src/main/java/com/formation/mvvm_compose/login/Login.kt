@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,17 +31,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.commons.BasicScreen
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginRoot(vm: LoginViewModel = viewModel(), onLogin:() -> Unit) {
+fun LoginRoot(vm: LoginViewModel = koinViewModel(), onLogin:() -> Unit) {
     BasicScreen(content = {
         Login(vm.state, onLogin, vm::onLoginClick, vm::userValueChanged, vm::passValueChanged)
     })
@@ -56,11 +59,6 @@ fun Login(state: LoginViewModel.UiState,
 
     LaunchedEffect(state.loggedIn) {
         if (state.loggedIn) onLogin()
-    }
-
-    val message = when {
-        state.message != null -> state.message
-        else -> ""
     }
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.imePadding()) {
@@ -86,6 +84,13 @@ fun Login(state: LoginViewModel.UiState,
                 },
                 isError = state.isUserError
             )
+
+            Crossfade(targetState = state.isUserError) { isUserError ->
+                if (isUserError){
+                    Text(text = "User must contain @")
+                }
+            }
+
             StatePasswordTextField(
                 value = pass,
                 onValueChange = {
@@ -94,6 +99,12 @@ fun Login(state: LoginViewModel.UiState,
                 },
                 isError = state.isPassError
             )
+
+            Crossfade(targetState = state.isPassError) { isUserError ->
+                if (isUserError){
+                    Text(text = "Password must contains 5 letters")
+                }
+            }
 
             Button(
                 enabled = buttonEnabled,
@@ -108,8 +119,6 @@ fun Login(state: LoginViewModel.UiState,
                 ) {
                 Text(text = "Login")
             }
-
-            Text(text = message)
         }
     }
 }
@@ -123,10 +132,21 @@ private fun StateUserTextField(
     TextField(
         value = value,
         label = { Text(text = "Usuario") },
-        placeholder = { Text(text = "Manuel@") },
+        placeholder = { Text(text = "Manuel@gmail.com") },
         onValueChange = onValueChange,
         isError = isError,
         singleLine = true,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = colorResource(id = R.color.lightGray),
+            focusedContainerColor = colorResource(id = R.color.lightGray),
+            errorContainerColor = colorResource(id = R.color.lightGray),
+            focusedTextColor = Color.Black,
+            focusedLabelColor = Color.Gray,
+            unfocusedLabelColor = Color.Gray,
+            focusedIndicatorColor = Color.Gray,
+            unfocusedTextColor = Color.Gray,
+            cursorColor = Color.Gray,
+        ),
         textStyle = TextStyle(
             color = if (isError) Color.Red else Color.Black
         ),
@@ -145,10 +165,22 @@ private fun StatePasswordTextField(
 
     TextField(
         value = value,
-        placeholder = { Text(text = "Contraseña") },
+        label = { Text(text = "Contraseña") },
+        placeholder = { Text(text = "12345") },
         onValueChange = onValueChange,
         isError = isError,
         singleLine = true,
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = colorResource(id = R.color.lightGray),
+            focusedContainerColor = colorResource(id = R.color.lightGray),
+            errorContainerColor = colorResource(id = R.color.lightGray),
+            focusedTextColor = Color.Black,
+            focusedLabelColor = Color.Gray,
+            unfocusedLabelColor = Color.Gray,
+            focusedIndicatorColor = Color.Gray,
+            unfocusedTextColor = Color.Gray,
+            cursorColor = Color.Gray,
+        ),
         textStyle = TextStyle(
             color = if (isError) Color.Red else Color.Black
         ),
@@ -161,13 +193,13 @@ private fun StatePasswordTextField(
                 Crossfade(targetState = passwordVisible) { visible ->
                     if (visible) {
                         Icon(
-                            imageVector = Icons.Default.VisibilityOff,
+                            imageVector = Icons.Default.Visibility,
                             tint = if (isError) Color.Red else Color.Black,
                             contentDescription = null
                         )
                     } else {
                         Icon(
-                            imageVector = Icons.Default.Visibility,
+                            imageVector = Icons.Default.VisibilityOff,
                             tint = if (isError) Color.Red else Color.Black,
                             contentDescription = null
                         )
