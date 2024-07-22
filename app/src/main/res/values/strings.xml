@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MVVM_Compose</string>
+    <string name="select_language">Elige el idioma</string>
+    <string name="user_field_requirements">User must contain @</string>
+    <string name="password_field_requirements">Password must contains 5 letters</string>
+    <string name="login_forget_info">¿Has olvidado tus datos de inicio de sesión?</string>
+    <string name="login_need_help">Obtén ayuda</string>
+    <string name="login_have_account">"¿No tienes cuenta? "</string>
+    <string name="login_sign_up">Regístrate</string>
+    <string name="login_password_label">Contraseña</string>
+    <string name="login_password_placeholder">12345</string>
 </resources>

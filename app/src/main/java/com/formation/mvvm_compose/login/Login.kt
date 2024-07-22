@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
@@ -61,7 +62,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.formation.mvvm_compose.R
+import com.formation.mvvm_compose.app.conditional
 import com.formation.mvvm_compose.commons.BasicScreen
+import com.formation.mvvm_compose.commons.DropdownList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -100,7 +103,7 @@ fun Login(
                 .weight(1f)
                 .padding(top = 16.dp)
         ) {
-            Text(text = "Elige el idioma")
+            DropDownMenu()
         }
 
         Image(
@@ -140,7 +143,7 @@ fun Login(
 
                 Crossfade(targetState = state.isUserError) { isUserError ->
                     if (isUserError) {
-                        Text(text = "User must contain @")
+                        Text(text = stringResource(R.string.user_field_requirements))
                     }
                 }
 
@@ -155,7 +158,7 @@ fun Login(
 
                 Crossfade(targetState = state.isPassError) { isUserError ->
                     if (isUserError) {
-                        Text(text = "Password must contains 5 letters")
+                        Text(text = stringResource(R.string.password_field_requirements))
                     }
                 }
 
@@ -176,10 +179,11 @@ fun Login(
                 ClickablePartOfText(
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontSize = 12.sp, color = Color.Gray)) {
-                            append("Has olvidado tus datos de inicio de sesión?")
+                            append(stringResource(R.string.login_forget_info))
                         }
 
-                        withAnnotation("tag", "annotation") {
+                        val loginNeedHelp: String = stringResource(R.string.login_need_help)
+                        withAnnotation(Constants.CLICKABLE_TAG, "") {
                             withStyle(
                                 style = SpanStyle(
                                     color = Color.Gray,
@@ -187,7 +191,7 @@ fun Login(
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append("Obtén ayuda")
+                                append(loginNeedHelp)
                             }
                         }
                     }) {
@@ -196,7 +200,7 @@ fun Login(
             }
         }
 
-        Text("Login Social", modifier = Modifier.weight(1f))
+        Text("Login Social", modifier = Modifier.weight(1f), color = Color.Gray)
 
 
         Box(
@@ -220,10 +224,11 @@ fun Login(
             ClickablePartOfText(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontSize = 16.sp, color = Color.Gray)) {
-                        append("¿No tienes cuenta? ")
+                        append(stringResource(R.string.login_have_account))
                     }
 
-                    withAnnotation("tag", "annotation") {
+                    val loginLoginUp = stringResource(id = R.string.login_sign_up)
+                    withAnnotation(Constants.CLICKABLE_TAG, "") {
                         withStyle(
                             style = SpanStyle(
                                 color = Color.Gray,
@@ -231,18 +236,14 @@ fun Login(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("Regístrate")
+                            append(loginLoginUp)
                         }
                     }
                 }, center = true) {
                 Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
             }
-
         }
-
-
     }
-
 }
 
 @Composable
@@ -290,8 +291,8 @@ private fun StatePasswordTextField(
 
     TextField(
         value = value,
-        label = { Text(text = "Contraseña") },
-        placeholder = { Text(text = "12345") },
+        label = { Text(text = stringResource(R.string.login_password_label)) },
+        placeholder = { Text(text = stringResource(R.string.login_password_placeholder)) },
         onValueChange = onValueChange,
         isError = isError,
         singleLine = true,
@@ -338,7 +339,7 @@ private fun StatePasswordTextField(
 }
 
 @Composable
-fun ClickablePartOfText(annotatedString: AnnotatedString,center: Boolean = false,onTextClick: () -> Unit, ) {
+fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = false, onTextClick: () -> Unit, ) {
 
     var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -355,12 +356,12 @@ fun ClickablePartOfText(annotatedString: AnnotatedString,center: Boolean = false
         },
         textAlign = textAlign,
         modifier = Modifier
-            .conditional(center){
-                Modifier.fillMaxWidth().padding(16.dp)
-
+            .conditional(center) {
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             }
             .pointerInput(Unit) {
-
                 detectTapGestures { offset ->
                     textLayoutResult?.let { layoutResult ->
                         val position = layoutResult.getOffsetForPosition(offset)
@@ -370,10 +371,11 @@ fun ClickablePartOfText(annotatedString: AnnotatedString,center: Boolean = false
                                 end = position,
                             )
                             .firstOrNull { annotation ->
-                                annotation.tag.startsWith("tag")
+                                annotation.tag.startsWith(Constants.CLICKABLE_TAG)
                             }
                             ?.let { annotation ->
-                                val userId = annotation.item  // could be use when a annotated string have more than one tag. Could it be differentiate with a when
+                                val userId =
+                                    annotation.item  // could be use when a annotated string have more than one tag. Could it be differentiate with a when
                                 onTextClick()
                             }
                     }
@@ -382,10 +384,31 @@ fun ClickablePartOfText(annotatedString: AnnotatedString,center: Boolean = false
     )
 }
 
-fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier) : Modifier {
-    return if (condition) {
-        then(modifier(Modifier))
-    } else {
-        this
+
+
+@Composable
+fun DropDownMenu() {
+    val itemList = listOf("Español (España)", "English")
+    //TODO recollect list of languages available in app
+
+    var selectedIndex by rememberSaveable { mutableStateOf(0) }
+
+    val buttonModifier = Modifier.width(200.dp)
+
+    Column(
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        DropdownList(itemList = itemList, selectedIndex = selectedIndex, modifier = buttonModifier, onItemClick = { selectedIndex = it})
+
+
+//        Text(text = "You have chosen ${itemList[selectedIndex]}",
+
     }
+}
+
+ object Constants {
+     const val CLICKABLE_TAG = "CLICKABLE_TAG"
 }
