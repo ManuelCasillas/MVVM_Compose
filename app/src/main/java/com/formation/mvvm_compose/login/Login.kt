@@ -1,14 +1,23 @@
 package com.formation.mvvm_compose.login
 
 
+import android.widget.Toast
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,20 +33,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.MultiParagraph
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutInput
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.commons.BasicScreen
 import org.koin.androidx.compose.koinViewModel
@@ -61,19 +87,31 @@ fun Login(state: LoginViewModel.UiState,
         if (state.loggedIn) onLogin()
     }
 
+
+
+
     Box(contentAlignment = Alignment.Center, modifier = Modifier.imePadding()) {
+
 
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.width(IntrinsicSize.Min)
-
         ) {
             val focusManager = LocalFocusManager.current
+
+            val context = LocalContext.current
 
             var user by rememberSaveable { mutableStateOf(value = "") }
             var pass by rememberSaveable { mutableStateOf(value = "") }
             val buttonEnabled = pass.isNotEmpty() && user.isNotEmpty()
+
+
+            Image(
+                painter = painterResource(id = R.drawable.ic_marvel),
+                contentDescription = null,
+                modifier = Modifier.size(140.dp),
+            )
 
 
             StateUserTextField(
@@ -118,6 +156,10 @@ fun Login(state: LoginViewModel.UiState,
 
                 ) {
                 Text(text = "Login")
+            }
+
+            ClickablePartOfText {
+                Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -209,5 +251,50 @@ private fun StatePasswordTextField(
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
+    )
+}
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun ClickablePartOfText(onTextClick: () -> Unit) {
+
+    var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+
+    val annotatedString = buildAnnotatedString {
+            withStyle(style = SpanStyle(fontSize = 12.sp, color = Color.Gray)) {
+                append("Has olvidado tus datos de inicio de sesión?")
+            }
+
+            withAnnotation("tag", "annotation") {
+                withStyle(style = SpanStyle(color = Color.Gray, fontSize = 12.sp, fontWeight = FontWeight.Bold)) {
+                    append("Obtén ayuda")
+                }
+            }
+        }
+
+    BasicText(
+        text = annotatedString,
+        onTextLayout = { it ->
+            textLayoutResult = it
+        },
+        modifier = Modifier
+            .padding(16.dp)
+            .pointerInput(Unit) {
+
+                detectTapGestures { offset ->
+                    textLayoutResult?.let { layoutResult ->
+                        val position = layoutResult.getOffsetForPosition(offset)
+                        annotatedString.getStringAnnotations(
+                            start = position,
+                            end = position,
+                        ).firstOrNull { annotation ->
+                            annotation.tag.startsWith("tag")
+                        }?.let { annotation ->
+                            val userId = annotation.item
+                            onTextClick()
+                        }
+                    }
+                }
+            }
     )
 }
