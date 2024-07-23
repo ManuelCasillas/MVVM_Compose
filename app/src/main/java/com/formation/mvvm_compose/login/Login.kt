@@ -1,7 +1,12 @@
 package com.formation.mvvm_compose.login
 
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
+import android.os.LocaleList
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,6 +36,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -61,6 +67,8 @@ import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.LocaleListCompat
 import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.app.conditional
 import com.formation.mvvm_compose.commons.BasicScreen
@@ -98,13 +106,16 @@ fun Login(
 
         val context = LocalContext.current
 
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 16.dp)
-        ) {
-            DropDownMenu()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 16.dp)
+            ) {
+                LanguageChangeDropDownMenu()
+            }
         }
+
 
         Image(
             painter = painterResource(id = R.drawable.ic_marvel),
@@ -245,6 +256,7 @@ fun Login(
         }
     }
 }
+
 
 @Composable
 private fun StateUserTextField(
@@ -387,25 +399,47 @@ fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = fals
 
 
 @Composable
-fun DropDownMenu() {
+fun LanguageChangeDropDownMenu() {
     val itemList = listOf("Español (España)", "English")
-    //TODO recollect list of languages available in app
 
-    var selectedIndex by rememberSaveable { mutableStateOf(0) }
+    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
 
     val buttonModifier = Modifier.width(200.dp)
+    val context = LocalContext.current
 
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
-        DropdownList(itemList = itemList, selectedIndex = selectedIndex, modifier = buttonModifier, onItemClick = { selectedIndex = it})
+        Column(
+            modifier = Modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            DropdownList(
+                itemList = itemList,
+                selectedIndex = selectedIndex,
+                modifier = buttonModifier,
+                onItemClick = {
+                    selectedIndex = it
+
+                    val languageTag = when (selectedIndex) {
+                        1 -> "en"
+                        else -> "es"
+                    }
+
+                    ChangeLanguage(context, languageTag)
+                })
+        }
+    }
+}
 
 
-//        Text(text = "You have chosen ${itemList[selectedIndex]}",
-
+private fun ChangeLanguage(context: Context, locale: String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        context.getSystemService(LocaleManager::class.java)
+            .applicationLocales = LocaleList.forLanguageTags(locale)
+    } else {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(locale))
     }
 }
 
