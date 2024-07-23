@@ -67,7 +67,7 @@ import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.core.os.LocaleListCompat
 import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.app.conditional
@@ -97,166 +97,189 @@ fun Login(
     }
 
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+   ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-        val context = LocalContext.current
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 16.dp)
-            ) {
-                LanguageChangeDropDownMenu()
-            }
-        }
+       val (languageBox, loginBox, logoBox, loginText, registerBox) = createRefs()
+       val context = LocalContext.current
 
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_marvel),
-            contentDescription = null,
-            modifier = Modifier
-                .size(140.dp)
-                .weight(1f),
-        )
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+           Box(
+               contentAlignment = Alignment.TopCenter,
+               modifier = Modifier
+                   .padding(top = 16.dp)
+                   .constrainAs(languageBox) {
+                       top.linkTo(parent.top)
+                       start.linkTo(parent.start)
+                       end.linkTo(parent.end)
+                   }
+           ) {
+               LanguageChangeDropDownMenu()
+           }
+       }
 
-        Box(
-            contentAlignment = Alignment.Center, modifier = Modifier
-                .imePadding()
-                .weight(3.5f)
-        ) {
+       Image(
+           painter = painterResource(id = R.drawable.ic_marvel),
+           contentDescription = null,
+           modifier = Modifier
+               .size(160.dp)
+               .constrainAs(logoBox) {
+                   bottom.linkTo(loginBox.top)
+                   start.linkTo(parent.start)
+                   end.linkTo(parent.end)
+               }
+       )
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.width(IntrinsicSize.Min)
-            ) {
-                val focusManager = LocalFocusManager.current
+       Box(
+           modifier = Modifier
+               .imePadding()
+               .constrainAs(loginBox) {
+                   top.linkTo(parent.top)
+                   start.linkTo(parent.start)
+                   end.linkTo(parent.end)
+                   bottom.linkTo(parent.bottom)
+               }
 
+       ) {
 
-                var user by rememberSaveable { mutableStateOf(value = "") }
-                var pass by rememberSaveable { mutableStateOf(value = "") }
-                val buttonEnabled = pass.isNotEmpty() && user.isNotEmpty()
-
-                StateUserTextField(
-                    value = user,
-                    onValueChange = {
-                        user = it
-                        userValueChanged()
-                    },
-                    isError = state.isUserError
-                )
-
-                Crossfade(targetState = state.isUserError) { isUserError ->
-                    if (isUserError) {
-                        Text(text = stringResource(R.string.user_field_requirements))
-                    }
-                }
-
-                StatePasswordTextField(
-                    value = pass,
-                    onValueChange = {
-                        pass = it
-                        passValueChanged()
-                    },
-                    isError = state.isPassError
-                )
-
-                Crossfade(targetState = state.isPassError) { isUserError ->
-                    if (isUserError) {
-                        Text(text = stringResource(R.string.password_field_requirements))
-                    }
-                }
-
-                Button(
-                    enabled = buttonEnabled,
-                    onClick = {
-                        focusManager.clearFocus()
-                        onLoginClick(user, pass)
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth(),
-
-                    ) {
-                    Text(text = "Login")
-                }
-
-                ClickablePartOfText(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontSize = 12.sp, color = Color.Gray)) {
-                            append(stringResource(R.string.login_forget_info))
-                        }
-
-                        val loginNeedHelp: String = stringResource(R.string.login_need_help)
-                        withAnnotation(Constants.CLICKABLE_TAG, "") {
-                            withStyle(
-                                style = SpanStyle(
-                                    color = Color.Gray,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            ) {
-                                append(loginNeedHelp)
-                            }
-                        }
-                    }) {
-                    Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-        Text("Login Social", modifier = Modifier.weight(1f), color = Color.Gray)
+           Column(
+               verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+               horizontalAlignment = Alignment.CenterHorizontally,
+               modifier = Modifier.width(IntrinsicSize.Min)
+           ) {
+               val focusManager = LocalFocusManager.current
 
 
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
+               var user by rememberSaveable { mutableStateOf(value = "") }
+               var pass by rememberSaveable { mutableStateOf(value = "") }
+               val buttonEnabled = pass.isNotEmpty() && user.isNotEmpty()
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp) // Specify the height of the thin line
-                    .background(Color.LightGray)// Set the color of the line
-            )
+               StateUserTextField(
+                   value = user,
+                   onValueChange = {
+                       user = it
+                       userValueChanged()
+                   },
+                   isError = state.isUserError
+               )
 
-            Text(
-                text = " ",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-            )
+               Crossfade(targetState = state.isUserError) { isUserError ->
+                   if (isUserError) {
+                       Text(text = stringResource(R.string.user_field_requirements))
+                   }
+               }
 
-            ClickablePartOfText(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontSize = 16.sp, color = Color.Gray)) {
-                        append(stringResource(R.string.login_have_account))
-                    }
+               StatePasswordTextField(
+                   value = pass,
+                   onValueChange = {
+                       pass = it
+                       passValueChanged()
+                   },
+                   isError = state.isPassError
+               )
 
-                    val loginLoginUp = stringResource(id = R.string.login_sign_up)
-                    withAnnotation(Constants.CLICKABLE_TAG, "") {
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Gray,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(loginLoginUp)
-                        }
-                    }
-                }, center = true) {
-                Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+               Crossfade(targetState = state.isPassError) { isUserError ->
+                   if (isUserError) {
+                       Text(text = stringResource(R.string.password_field_requirements))
+                   }
+               }
+
+               Button(
+                   enabled = buttonEnabled,
+                   onClick = {
+                       focusManager.clearFocus()
+                       onLoginClick(user, pass)
+                   },
+                   modifier = Modifier
+                       .align(Alignment.CenterHorizontally)
+                       .fillMaxWidth(),
+
+                   ) {
+                   Text(text = stringResource(id = R.string.login_button))
+               }
+
+               ClickablePartOfText(
+                   buildAnnotatedString {
+                       withStyle(style = SpanStyle(fontSize = 12.sp, color = Color.Gray)) {
+                           append(stringResource(R.string.login_forget_info))
+                       }
+
+                       val loginNeedHelp: String = stringResource(R.string.login_need_help)
+                       withAnnotation(Constants.CLICKABLE_TAG, "") {
+                           withStyle(
+                               style = SpanStyle(
+                                   color = Color.Gray,
+                                   fontSize = 12.sp,
+                                   fontWeight = FontWeight.Bold
+                               )
+                           ) {
+                               append(loginNeedHelp)
+                           }
+                       }
+                   }) {
+                   Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
+               }
+           }
+       }
+
+       Text("Login Social", modifier = Modifier
+           .padding(top = 16.dp)
+           .constrainAs(loginText) {
+               top.linkTo(loginBox.bottom)
+               start.linkTo(parent.start)
+               end.linkTo(parent.end)
+           }, color = Color.Gray)
+
+
+       Box(
+           modifier = Modifier
+               .padding(bottom = 32.dp)
+               .constrainAs(registerBox) {
+                   start.linkTo(parent.start)
+                   end.linkTo(parent.end)
+                   bottom.linkTo(parent.bottom)
+               }
+       ) {
+
+           Box(
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .height(1.dp) // Specify the height of the thin line
+                   .background(Color.LightGray)// Set the color of the line
+           )
+
+           Text(
+               text = " ",
+               modifier = Modifier
+                   .fillMaxWidth()
+                   .padding(top = 16.dp),
+           )
+
+           ClickablePartOfText(
+               buildAnnotatedString {
+                   withStyle(style = SpanStyle(fontSize = 16.sp, color = Color.Gray)) {
+                       append(stringResource(R.string.login_have_account))
+                   }
+
+                   val loginLoginUp = stringResource(id = R.string.login_sign_up)
+                   withAnnotation(Constants.CLICKABLE_TAG, "") {
+                       withStyle(
+                           style = SpanStyle(
+                               color = Color.Gray,
+                               fontSize = 16.sp,
+                               fontWeight = FontWeight.Bold
+                           )
+                       ) {
+                           append(loginLoginUp)
+                       }
+                   }
+               }, center = true) {
+               Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
+           }
+       }
+
+   }
 }
-
 
 @Composable
 private fun StateUserTextField(

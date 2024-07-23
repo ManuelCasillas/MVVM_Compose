@@ -9,4 +9,5 @@
     <string name="login_sign_up">Regístrate</string>
     <string name="login_password_label">Contraseña</string>
     <string name="login_password_placeholder">12345</string>
+    <string name="login_button">Iniciar sesión</string>
 </resources>

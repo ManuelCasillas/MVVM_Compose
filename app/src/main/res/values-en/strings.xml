@@ -10,4 +10,5 @@
     <string name="login_sign_up">Sign up</string>
     <string name="login_password_label">Password</string>
     <string name="login_password_placeholder">12345</string>
+    <string name="login_button">Login</string>
 </resources>
