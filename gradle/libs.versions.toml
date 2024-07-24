@@ -17,6 +17,8 @@ koin = "3.4.1"
 appCompat = "1.7.0"
 constraintlayout = "1.0.1"
 splash = "1.0.1"
+datastore = "1.0.0"
+securityCripto = "1.1.0-alpha03"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +44,8 @@ koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref =
 androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompat"}
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
 androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "securityCripto" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -73,4 +77,9 @@ androidx-test-junit = [
 androidx-lifecyle =  [
     "androidx-lifecyle-viewmodel",
     "androidx-lifecycle-runtime-ktx"
+]
+
+androidx-datastoreCrypto = [
+    "androidx-datastore",
+    "androidx-security"
 ]

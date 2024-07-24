@@ -68,6 +68,9 @@ import com.formation.mvvm_compose.app.conditional
 import com.formation.mvvm_compose.commons.BasicScreen
 import com.formation.mvvm_compose.commons.LanguageChangeDropDownMenu
 import com.formation.mvvm_compose.commons.LoadingOverlay
+import com.formation.mvvm_compose.commons.getCredentials
+import com.formation.mvvm_compose.commons.saveCredentials
+import com.formation.mvvm_compose.models.Credential
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -87,15 +90,25 @@ fun Login(
     passValueChanged: () -> Unit,
     navigateLoading: () -> Unit,
 ) {
+    val context = LocalContext.current
+
+    var user by rememberSaveable { mutableStateOf(value = "") }
+    var pass by rememberSaveable { mutableStateOf(value = "") }
+
+    val credential: Credential? = getCredentials(context)
+    credential?.let { onLogin() }
+
 
     LaunchedEffect(state.loggedIn) {
-        if (state.loggedIn) onLogin()
+        if (state.loggedIn) {
+            saveCredentials(context, Credential(user = user, password = pass))
+            onLogin()
+        }
     }
 
    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
        val (languageBox, loginBox, logoBox, loginText, registerBox) = createRefs()
-       val context = LocalContext.current
 
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -145,8 +158,7 @@ fun Login(
                val focusManager = LocalFocusManager.current
 
 
-               var user by rememberSaveable { mutableStateOf(value = "") }
-               var pass by rememberSaveable { mutableStateOf(value = "") }
+
                val buttonEnabled = pass.isNotEmpty() && user.isNotEmpty()
 
                StateUserTextField(
