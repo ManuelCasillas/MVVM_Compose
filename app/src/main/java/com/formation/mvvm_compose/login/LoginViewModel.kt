@@ -4,6 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class LoginViewModel: ViewModel() {
@@ -15,8 +18,9 @@ class LoginViewModel: ViewModel() {
         val isUserValid = user.contains("@")
         val isPassValid = pass.length > 5
 
+
         state = UiState(
-            loggedIn = isUserValid && isPassValid,
+            isLoading = isUserValid && isPassValid,
             isUserError = when {
                 !isUserValid -> true
                 else -> false
@@ -31,13 +35,22 @@ class LoginViewModel: ViewModel() {
     fun userValueChanged() {
         state = state.copy(isUserError = false)
     }
+
     fun passValueChanged() {
         state = state.copy(isPassError = false)
+    }
+
+    fun navigateLoading() {
+        viewModelScope.launch {
+            delay(3000L)
+            state = state.copy(loggedIn = true)
+        }
     }
 
     data class UiState(
         val loggedIn: Boolean = false,
         val isUserError: Boolean = false,
-        val isPassError: Boolean = false
+        val isPassError: Boolean = false,
+        val isLoading: Boolean = false
     )
 }

@@ -1,12 +1,8 @@
 package com.formation.mvvm_compose.login
 
 
-import android.app.LocaleManager
-import android.content.Context
 import android.os.Build
-import android.os.LocaleList
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,7 +32,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -68,17 +63,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.os.LocaleListCompat
 import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.app.conditional
 import com.formation.mvvm_compose.commons.BasicScreen
-import com.formation.mvvm_compose.commons.DropdownList
+import com.formation.mvvm_compose.commons.LanguageChangeDropDownMenu
+import com.formation.mvvm_compose.commons.LoadingOverlay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginRoot(vm: LoginViewModel = koinViewModel(), onLogin: () -> Unit) {
     BasicScreen(content = {
-        Login(vm.state, onLogin, vm::onLoginClick, vm::userValueChanged, vm::passValueChanged)
+        Login(vm.state, onLogin, vm::onLoginClick, vm::userValueChanged, vm::passValueChanged, vm::navigateLoading)
     })
 }
 
@@ -89,13 +84,13 @@ fun Login(
     onLogin: () -> Unit,
     onLoginClick: (user: String, pass: String) -> Unit,
     userValueChanged: () -> Unit,
-    passValueChanged: () -> Unit
+    passValueChanged: () -> Unit,
+    navigateLoading: () -> Unit,
 ) {
 
     LaunchedEffect(state.loggedIn) {
         if (state.loggedIn) onLogin()
     }
-
 
    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
@@ -279,6 +274,14 @@ fun Login(
        }
 
    }
+
+
+    if (state.isLoading) {
+        LoadingOverlay()
+        navigateLoading()
+    }
+
+
 }
 
 @Composable
@@ -417,53 +420,6 @@ fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = fals
                 }
             }
     )
-}
-
-
-
-@Composable
-fun LanguageChangeDropDownMenu() {
-    val itemList = listOf("Español (España)", "English")
-
-    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
-
-    val buttonModifier = Modifier.width(200.dp)
-    val context = LocalContext.current
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-        Column(
-            modifier = Modifier,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            DropdownList(
-                itemList = itemList,
-                selectedIndex = selectedIndex,
-                modifier = buttonModifier,
-                onItemClick = {
-                    selectedIndex = it
-
-                    val languageTag = when (selectedIndex) {
-                        1 -> "en"
-                        else -> "es"
-                    }
-
-                    ChangeLanguage(context, languageTag)
-                })
-        }
-    }
-}
-
-
-private fun ChangeLanguage(context: Context, locale: String) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        context.getSystemService(LocaleManager::class.java)
-            .applicationLocales = LocaleList.forLanguageTags(locale)
-    } else {
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(locale))
-    }
 }
 
  object Constants {
