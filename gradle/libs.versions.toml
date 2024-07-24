@@ -16,6 +16,7 @@ coil = "2.2.0"
 koin = "3.4.1"
 appCompat = "1.7.0"
 constraintlayout = "1.0.1"
+splash = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,7 +41,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
 androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompat"}
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
-
+androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -55,7 +56,8 @@ androidx-ui = [
     "androidx-material3",
     "coil-compose",
     "androidx-compose-material-icons",
-    "androidx-constraintlayout"
+    "androidx-constraintlayout",
+    "androidx-splash"
 ]
 
 androidx-debug-ui = [
