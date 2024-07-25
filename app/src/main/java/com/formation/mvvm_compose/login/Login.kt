@@ -229,13 +229,13 @@ fun Login(
            }
        }
 
-       Text("Login Social", modifier = Modifier
-           .padding(top = 16.dp)
-           .constrainAs(loginText) {
-               top.linkTo(loginBox.bottom)
-               start.linkTo(parent.start)
-               end.linkTo(parent.end)
-           }, color = Color.Gray)
+//       Text("Login Social", modifier = Modifier
+//           .padding(top = 16.dp)
+//           .constrainAs(loginText) {
+//               top.linkTo(loginBox.bottom)
+//               start.linkTo(parent.start)
+//               end.linkTo(parent.end)
+//           }, color = Color.Gray)
 
 
        Box(

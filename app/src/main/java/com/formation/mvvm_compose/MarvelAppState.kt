@@ -10,7 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.formation.mvvm_compose.navigation.NavItem
+import com.formation.mvvm_compose.navigation.mainNavigation.NavItem
 import com.formation.mvvm_compose.navigation.navigatePoppingUpToStartDestination
 
 import kotlinx.coroutines.CoroutineScope

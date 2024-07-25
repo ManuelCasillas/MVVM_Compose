@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.navigation
+package com.formation.mvvm_compose.navigation.mainNavigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*

@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.navigation
+package com.formation.mvvm_compose.navigation.mainNavigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,11 +13,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import androidx.navigation.compose.navigation
 import com.formation.mvvm_compose.settings.Settings
 
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(navController: NavHostController, logout: () -> Unit) {
 
     NavHost(
         navController = navController,
@@ -27,10 +27,11 @@ fun Navigation(navController: NavHostController) {
         comicsNav(navController)
         eventsNav(navController)
         composable(NavCommand.ContentType(Feature.SETTINGS)) {
-            Settings()
+            Settings(logout)
         }
     }
 }
+
 
 private fun NavGraphBuilder.charactersNav(navController: NavController) {
     navigation(
@@ -46,6 +47,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
         }
     }
 }
+
 
 private fun NavGraphBuilder.comicsNav(navController: NavController) {
     navigation(
@@ -92,29 +94,6 @@ private fun NavGraphBuilder.composable(
 }
 
 
-//@Composable
-//fun Navigation() {
-//    val navController = rememberNavController()
-//
-//    NavHost(
-//        navController = navController,
-//        startDestination = Routes.Login
-//    ) {
-//        composable<Routes.Login> { backStackEntry ->
-//            LoginRoot(
-//                onLogin = {
-//                    navController.navigate(Routes.Home) {
-//                        popUpTo(backStackEntry.destination.id) {
-//                            inclusive = true // para limpiar la pila de navegación
-//                        }
-//                    }
-//                })
-//        }
-//        composable<Routes.Home> {
-//            Home()
-//        }
-//    }
-//}
 
 
 @Composable
