@@ -71,6 +71,7 @@ dependencies {
 
     //bundles
     implementation(libs.bundles.androidx.ui)
+    implementation(libs.bundles.google.accompanist)
     implementation(libs.bundles.androidx.lifecyle)
     implementation(libs.bundles.androidx.datastoreCrypto)
     debugImplementation(libs.bundles.androidx.debug.ui)

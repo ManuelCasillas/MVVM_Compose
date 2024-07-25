@@ -19,6 +19,7 @@ constraintlayout = "1.0.1"
 splash = "1.0.1"
 datastore = "1.0.0"
 securityCripto = "1.1.0-alpha03"
+accompanist_version = '0.28.0'
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,9 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "securityCripto" }
+google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist_version" }
+google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist_version" }
+google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -82,4 +86,10 @@ androidx-lifecyle =  [
 androidx-datastoreCrypto = [
     "androidx-datastore",
     "androidx-security"
+]
+
+google-accompanist = [
+    "google-accompanist-pager",
+    "google-accompanist-pager-indicators",
+    "google-accompanist-systemuicontroller"
 ]
