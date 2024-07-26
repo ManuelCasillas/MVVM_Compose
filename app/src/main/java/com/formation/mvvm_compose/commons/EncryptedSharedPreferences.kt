@@ -6,7 +6,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.formation.mvvm_compose.commons.Constants.PASSWORD_KEY
 import com.formation.mvvm_compose.commons.Constants.USERNAME_KEY
-import com.formation.mvvm_compose.models.Credential
+import com.formation.domain.model.Credential
 
 private fun getEncryptedSharedPreferences(context: Context): SharedPreferences {
     val masterKey = MasterKey.Builder(context)

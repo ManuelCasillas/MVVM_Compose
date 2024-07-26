@@ -20,6 +20,8 @@ splash = "1.0.1"
 datastore = "1.0.0"
 securityCripto = "1.1.0-alpha03"
 accompanist_version = '0.28.0'
+materialVersion = "1.12.0"
+jetbrainsKotlinJvmVersion = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,11 +52,14 @@ androidx-security = { group = "androidx.security", name = "security-crypto", ver
 google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist_version" }
 google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist_version" }
 google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist_version" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvmVersion" }
 
 [bundles]
 androidx-ui = [

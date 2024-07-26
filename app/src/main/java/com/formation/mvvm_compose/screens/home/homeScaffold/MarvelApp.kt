@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose
+package com.formation.mvvm_compose.screens.home.homeScaffold
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -15,6 +15,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.commons.BasicScreen
 import com.formation.mvvm_compose.navigation.mainNavigation.AppBarIcon
 import com.formation.mvvm_compose.navigation.mainNavigation.AppBottomNavigation
@@ -59,7 +60,7 @@ fun MarvelApp(appState: MarvelAppState = rememberMarvelAppState(), logout: () ->
                     )
                 },
                 bottomBar = {
-//                    if (appState.showBottomNavigation) {
+//                    if (appState.showBottomNavigation) { // When you customize this one hiding and showing, add an undesired blink at bottom bar
                         AppBottomNavigation(
                             bottomNavOptions = MarvelAppState.BOTTOM_NAV_OPTIONS,
                             currentRoute = appState.currentRoute,

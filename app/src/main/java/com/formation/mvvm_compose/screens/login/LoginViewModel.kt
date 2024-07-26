@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.login
+package com.formation.mvvm_compose.screens.login
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

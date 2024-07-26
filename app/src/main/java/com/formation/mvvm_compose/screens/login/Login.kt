@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.login
+package com.formation.mvvm_compose.screens.login
 
 
 import android.os.Build
@@ -70,7 +70,7 @@ import com.formation.mvvm_compose.commons.LanguageChangeDropDownMenu
 import com.formation.mvvm_compose.commons.LoadingOverlay
 import com.formation.mvvm_compose.commons.getCredentials
 import com.formation.mvvm_compose.commons.saveCredentials
-import com.formation.mvvm_compose.models.Credential
+import com.formation.domain.model.Credential
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -108,7 +108,7 @@ fun Login(
 
    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-       val (languageBox, loginBox, logoBox, loginText, registerBox) = createRefs()
+       val (languageBox, loginBox, logoBox, registerBox) = createRefs()
 
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

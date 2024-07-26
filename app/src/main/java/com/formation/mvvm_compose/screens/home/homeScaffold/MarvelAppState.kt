@@ -1,8 +1,7 @@
-package com.formation.mvvm_compose
+package com.formation.mvvm_compose.screens.home.homeScaffold
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -12,11 +11,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.formation.mvvm_compose.navigation.mainNavigation.NavItem
 import com.formation.mvvm_compose.navigation.navigatePoppingUpToStartDestination
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberMarvelAppState(
     scaffoldState: DrawerState = rememberDrawerState(DrawerValue.Closed),
@@ -26,7 +23,6 @@ fun rememberMarvelAppState(
     MarvelAppState(scaffoldState, navController, coroutineScope)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MarvelAppState(
     val drawerState: DrawerState,
     val navController: NavHostController,

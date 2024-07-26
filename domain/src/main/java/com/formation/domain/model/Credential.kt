@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.models
+package com.formation.domain.model
 
 data class Credential(
     val user: String,

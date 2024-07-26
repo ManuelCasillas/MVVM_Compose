@@ -76,4 +76,8 @@ dependencies {
     implementation(libs.bundles.androidx.datastoreCrypto)
     debugImplementation(libs.bundles.androidx.debug.ui)
     androidTestImplementation(libs.bundles.androidx.test.junit)
+
+    //project
+    implementation(project(":domain"))
+    implementation(project(":data"))
 }

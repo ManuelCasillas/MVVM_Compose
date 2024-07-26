@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.main
+package com.formation.mvvm_compose.screens.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

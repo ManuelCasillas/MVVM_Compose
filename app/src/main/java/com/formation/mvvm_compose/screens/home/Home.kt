@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.home
+package com.formation.mvvm_compose.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

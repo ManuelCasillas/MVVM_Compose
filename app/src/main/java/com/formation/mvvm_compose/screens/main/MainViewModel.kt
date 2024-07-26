@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.main
+package com.formation.mvvm_compose.screens.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay

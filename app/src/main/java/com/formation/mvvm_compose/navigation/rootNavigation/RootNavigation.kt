@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.formation.mvvm_compose.MarvelApp
-import com.formation.mvvm_compose.login.LoginRoot
+import com.formation.mvvm_compose.screens.home.homeScaffold.MarvelApp
+import com.formation.mvvm_compose.screens.login.LoginRoot
 
 @Composable
 fun RootNavigation() {
