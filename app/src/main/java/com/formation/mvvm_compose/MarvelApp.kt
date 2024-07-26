@@ -59,12 +59,12 @@ fun MarvelApp(appState: MarvelAppState = rememberMarvelAppState(), logout: () ->
                     )
                 },
                 bottomBar = {
-                    if (appState.showBottomNavigation) {
+//                    if (appState.showBottomNavigation) {
                         AppBottomNavigation(
                             bottomNavOptions = MarvelAppState.BOTTOM_NAV_OPTIONS,
                             currentRoute = appState.currentRoute,
                             onNavItemClick = { appState.onNavItemClick(it) })
-                    }
+//                    }
                 }
             ) { padding ->
                 Box(modifier = Modifier.padding(padding)) {

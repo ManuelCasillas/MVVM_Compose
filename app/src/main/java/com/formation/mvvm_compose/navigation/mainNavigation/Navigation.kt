@@ -19,9 +19,10 @@ import com.formation.mvvm_compose.settings.Settings
 @Composable
 fun Navigation(navController: NavHostController, logout: () -> Unit) {
 
+
     NavHost(
         navController = navController,
-        startDestination = Feature.CHARACTERS.route
+        startDestination = Feature.CHARACTERS.route,
     ) {
         charactersNav(navController)
         comicsNav(navController)
