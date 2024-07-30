@@ -47,6 +47,10 @@ class CharactersViewModel(
         _state.update { CharacterListState.Loading } // Show Loading
         loadCharacters()
     }
+
+    fun characterFavoriteClicked(character: Character, isFavorite: Boolean){
+        //TODO: call to room
+    }
 }
 
 sealed class CharacterListState {

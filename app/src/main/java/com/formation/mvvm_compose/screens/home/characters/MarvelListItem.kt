@@ -35,7 +35,7 @@ import com.formation.domain.model.Character
 @Composable
 fun MarvelListItem(
     marvelItem: Character,
-    onItemMore: (Character) -> Unit,
+    onCharacterFavoriteClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -73,6 +73,7 @@ fun MarvelListItem(
                 onCheckedChange = { characterMarkAsFavroite = it },
             ) {
                 Crossfade(targetState = characterMarkAsFavroite, label = "") { isFavorite ->
+                    onCharacterFavoriteClicked(isFavorite)
                     if (isFavorite) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
@@ -86,8 +87,6 @@ fun MarvelListItem(
                     }
                 }
             }
-
-
         }
     }
 }

@@ -30,14 +30,18 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CharactersRoot(vm: CharactersViewModel = koinViewModel()){
     val state = vm.state.collectAsState().value
-    Characters(state, vm::reloadButtonClicked)
+    Characters(state, vm::reloadButtonClicked, vm::characterFavoriteClicked)
 }
 
 @Composable
-fun Characters(state: CharacterListState, reloadButtonClicked: () -> Unit) {
+fun Characters(
+    state: CharacterListState,
+    reloadButtonClicked: () -> Unit,
+    characterFavoriteClicked: (Character, Boolean) -> Unit
+) {
     when (state) {
         is Loading -> { ShowLoadingView() }
-        is Success -> { CharactersList(state.list) }
+        is Success -> { CharactersList(state.list, characterFavoriteClicked) }
         is Failure -> { ReloadButton(reloadButtonClicked) }
     }
 }
@@ -55,7 +59,10 @@ private fun ShowLoadingView() {
 }
 
 @Composable
-private fun CharactersList(characterList: List<Character>) {
+private fun CharactersList(
+    characterList: List<Character>,
+    characterFavoritedClicked: (Character, Boolean) -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -69,7 +76,9 @@ private fun CharactersList(characterList: List<Character>) {
                 items(characterList) { character ->
                     MarvelListItem(
                         marvelItem = character,
-                        onItemMore = { },
+                        onCharacterFavoriteClicked = { isFavorite ->
+                            characterFavoritedClicked(character, isFavorite)
+                        },
                         modifier = Modifier.clickable { }
                     )
                 }
