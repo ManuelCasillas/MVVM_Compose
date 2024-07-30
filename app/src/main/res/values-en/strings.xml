@@ -18,6 +18,8 @@
     <string name="home">Home</string>
     <string name="home_error_message">There has been an error, please try again</string>
     <string name="home_reload_message">Reload character list</string>
+    <string name="home_progress_indicator_title">This operation may take a while…</string>
+
 
     <string name="settings">Settings</string>
     <string name="characters">Characters</string>

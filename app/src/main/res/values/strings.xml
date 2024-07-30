@@ -17,6 +17,7 @@
     <string name="home">Home</string>
     <string name="home_error_message">Ha habido algun error, por favor, intentelo de nuevo</string>
     <string name="home_reload_message">Recargar lista de personajes</string>
+    <string name="home_progress_indicator_title">Esta operación puede tardar…</string>
 
     <string name="settings">Ajustes</string>
     <string name="characters">Personajes</string>

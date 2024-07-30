@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -21,7 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.formation.domain.model.Character
 import com.formation.mvvm_compose.R
-import com.formation.mvvm_compose.screens.home.characters.CharacterListState.*
+import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Failure
+import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Loading
+import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Success
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -41,11 +44,13 @@ fun Characters(state: CharacterListState, reloadButtonClicked: () -> Unit) {
 
 @Composable
 private fun ShowLoadingView() {
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
         CircularProgressIndicator()
+        Text(stringResource(R.string.home_progress_indicator_title), modifier = Modifier.padding(top = 6.dp))
     }
 }
 
