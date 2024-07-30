@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -12,6 +14,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField ("String","MARVEL_PUBLIC_KEY","\"${properties.getProperty("MARVEL_PUBLIC_KEY")}\"")
+        buildConfigField ("String","MARVEL_PRIVATE_KEY","\"${properties.getProperty("MARVEL_PRIVATE_KEY")}\"")
     }
 
     buildTypes {
@@ -22,6 +30,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -41,6 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //Bundle
+    implementation(libs.bundles.squareup.retrofit)
 
     //project
     implementation(project(":domain"))

@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.formation.mvvm_compose.screens.home.characters.CharactersRoot
 import com.formation.mvvm_compose.settings.Settings
 
 @Composable
@@ -40,7 +41,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
         route = Feature.CHARACTERS.route
     ) {
         composable(NavCommand.ContentType(Feature.CHARACTERS)) {
-            DefaultScreen("caracteres")
+            CharactersRoot()
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
