@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,8 +15,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import com.formation.mvvm_compose.screens.home.characters.CharactersRoot
 import com.formation.mvvm_compose.settings.Settings
+import kotlinx.serialization.Serializable
+import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableEnum
+import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableType
+import kotlin.reflect.typeOf
 
 @Composable
 fun Navigation(navController: NavHostController, logout: () -> Unit) {
@@ -41,15 +47,34 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
         route = Feature.CHARACTERS.route
     ) {
         composable(NavCommand.ContentType(Feature.CHARACTERS)) {
-            CharactersRoot()
+            CharactersRoot(onCharacterClickNavigation = { character, characterID ->
+
+                //This is not correct.
+                // This is only and example of how to pass a serilizable object
+                // If you need to pass to another view a big enitity its better to call to DB again and only pass the ID.
+
+
+                val character: CharacterDetail =  character.let {
+                    CharacterDetail(
+                        it.id,
+                        it.title,
+                        it.description,
+                        it.thumbnail
+                    )
+                }
+
+                navController.navigate(CharacterDetailScreen(character, CharacterEnum.DISNEY, characterID))
+            })
         }
 
-        composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
-            DefaultScreen("detalle caracteres")
+        composable<CharacterDetailScreen>(
+            typeMap = CharacterDetailScreen.typeMap
+        ) {
+            val args = it.toRoute<CharacterDetailScreen>()
+            DefaultScreen("detalle caracteres ${args.characterID} ${args.characterEnum}")
         }
     }
 }
-
 
 private fun NavGraphBuilder.comicsNav(navController: NavController) {
     navigation(
@@ -83,6 +108,8 @@ private fun NavGraphBuilder.eventsNav(navController: NavController) {
     }
 }
 
+
+
 private fun NavGraphBuilder.composable(
     navCommand: NavCommand,
     content: @Composable (NavBackStackEntry) -> Unit
@@ -96,7 +123,34 @@ private fun NavGraphBuilder.composable(
 }
 
 
+@Serializable
+data class CharacterDetailScreen(
+    val character: CharacterDetail,
+    val characterEnum: CharacterEnum,
+    val characterID: Int
+){
+    companion object {
+        val typeMap = mapOf(
+            typeOf<CharacterDetail>() to serializableType<CharacterDetail>(),
+            typeOf<CharacterEnum>() to serializableEnum<CharacterEnum>(),
+        )
 
+        fun from(savedStateHandle: SavedStateHandle) =
+            savedStateHandle.toRoute<CharacterDetail>(typeMap)
+    }
+}
+
+@Serializable
+data class CharacterDetail(
+    val id: Int,
+    val title: String?,
+    val description: String,
+    val thumbnail: String
+)
+
+enum class CharacterEnum {
+    DISNEY
+}
 
 @Composable
 fun DefaultScreen(screenName: String){

@@ -2,6 +2,7 @@ package com.formation.mvvm_compose.app
 
 import android.app.Application
 import com.formation.mvvm_compose.di.apiModules
+import com.formation.mvvm_compose.di.database
 import com.formation.mvvm_compose.di.repositoryModules
 import com.formation.mvvm_compose.di.useCaseModules
 import com.formation.mvvm_compose.di.viewModelModules
@@ -13,7 +14,7 @@ class App: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(viewModelModules, useCaseModules, repositoryModules, apiModules)
+            modules(viewModelModules, useCaseModules, repositoryModules, apiModules, database)
         }
     }
 

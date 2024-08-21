@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 sealed class Routes() {
 
     @Serializable
-    object Login
+    data object Login
 
     @Serializable
-    object Home
+    data object Home
 }

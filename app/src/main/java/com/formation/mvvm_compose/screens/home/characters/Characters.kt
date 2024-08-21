@@ -14,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,20 +29,27 @@ import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Suc
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CharactersRoot(vm: CharactersViewModel = koinViewModel()){
+fun CharactersRoot(vm: CharactersViewModel = koinViewModel(), onCharacterClickNavigation: (character: Character, characterId: Int)-> Unit){
     val state = vm.state.collectAsState().value
-    Characters(state, vm::reloadButtonClicked, vm::characterFavoriteClicked)
+    Characters(state,  vm::initViewModel, vm::reloadButtonClicked, vm::characterFavoriteClicked, onCharacterClickNavigation)
 }
 
 @Composable
 fun Characters(
     state: CharacterListState,
+    initViewModel: () -> Unit,
     reloadButtonClicked: () -> Unit,
-    characterFavoriteClicked: (Character, Boolean) -> Unit
+    characterFavoriteClicked: (Character, Boolean) -> Unit,
+    onCharacterClickNavigation: (character: Character, characterId: Int) -> Unit,
 ) {
+
+    LaunchedEffect(Unit) {
+        initViewModel()
+    }
+
     when (state) {
         is Loading -> { ShowLoadingView() }
-        is Success -> { CharactersList(state.list, characterFavoriteClicked) }
+        is Success -> { CharactersList(state.list, characterFavoriteClicked, onCharacterClickNavigation) }
         is Failure -> { ReloadButton(reloadButtonClicked) }
     }
 }
@@ -61,8 +69,9 @@ private fun ShowLoadingView() {
 @Composable
 private fun CharactersList(
     characterList: List<Character>,
-    characterFavoritedClicked: (Character, Boolean) -> Unit
-) {
+    characterFavoriteClicked: (Character, Boolean) -> Unit,
+    onCharacterClickNavigation: (character: Character, characterId: Int) -> Unit,
+    ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -77,9 +86,11 @@ private fun CharactersList(
                     MarvelListItem(
                         marvelItem = character,
                         onCharacterFavoriteClicked = { isFavorite ->
-                            characterFavoritedClicked(character, isFavorite)
+                            characterFavoriteClicked(character, isFavorite)
                         },
-                        modifier = Modifier.clickable { }
+                        modifier = Modifier.clickable {
+                            onCharacterClickNavigation(character, character.id)
+                        }
                     )
                 }
             }

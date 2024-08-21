@@ -6,5 +6,6 @@ data class Character(
     val description: String,
     val thumbnail: String,
     val references: List<ReferenceList>? = null,
-    val urls: List<Url>
+    val urls: List<Url>,
+    var favorite: Boolean = false
 )

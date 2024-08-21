@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+//    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.ksp)
 }
 
 
@@ -17,15 +19,14 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        //Adding translations
         resourceConfigurations.addAll(listOf("es", "en"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-
-
-
 
     }
 
@@ -49,14 +50,16 @@ android {
         compose = true
         buildConfig = true
     }
+//    Be careful!! This version is needed to that kotlin compose version and room version
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -68,6 +71,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.koin)
     implementation(libs.androidx.appCompat)
+
+
+    implementation(libs.androidx.room)
+    ksp(libs.androidx.room.compiler)
 
 
     testImplementation(libs.junit)

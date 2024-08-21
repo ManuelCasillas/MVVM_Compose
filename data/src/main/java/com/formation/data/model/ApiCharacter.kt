@@ -26,7 +26,7 @@ fun ApiCharacter.toListCharacter(): Character {
         name,
         description,
         thumbnail.asString(),
-        urls = urls.map { Url(it.type, it.url) }
+        urls = urls.map { Url(it.type, it.url) },
+        favorite = false
     )
-
 }
