@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.formation.mvvm_compose.R
-import com.formation.mvvm_compose.commons.BasicScreen
+import com.formation.mvvm_compose.utils.BasicScreen
 import com.formation.mvvm_compose.navigation.mainNavigation.AppBarIcon
 import com.formation.mvvm_compose.navigation.mainNavigation.AppBottomNavigation
 import com.formation.mvvm_compose.navigation.mainNavigation.DrawerContent

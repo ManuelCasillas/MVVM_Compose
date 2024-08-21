@@ -14,24 +14,16 @@ fun Character.toRoomCharacter() =
         )
 
 
-fun List<Character>.toRoomCharacters(): List<CharacterRoom> {
-        return this.map {
-                CharacterRoom(
-                        id = it.id,
-                        title = it.title,
-                        description = it.description,
-                        thumbnail = it.thumbnail,
-//                        references = it.references,
-//                        urls = it.urls,
-                        favorite = it.favorite
-                )
-        }
-}
+fun List<Character>.toRoomCharacters(): List<CharacterRoom> =
+        this.map { it.toRoomCharacter() }
 
 
+fun List<CharacterRoom>.toCharactersList(): List<Character> =
+        this.map { it.toCharacter() }
 
-fun List<CharacterRoom>.toCharactersList(): List<Character> {
-        return this.map {
+
+fun CharacterRoom.toCharacter(): Character =
+        this.let {
                 Character(
                         id = it.id,
                         title = it.title,
@@ -42,5 +34,6 @@ fun List<CharacterRoom>.toCharactersList(): List<Character> {
                         favorite = it.favorite
                 )
         }
-}
+
+
 

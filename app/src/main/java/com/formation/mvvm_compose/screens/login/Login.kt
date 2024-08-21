@@ -64,12 +64,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.formation.mvvm_compose.R
-import com.formation.mvvm_compose.app.conditional
-import com.formation.mvvm_compose.commons.BasicScreen
-import com.formation.mvvm_compose.commons.LanguageChangeDropDownMenu
-import com.formation.mvvm_compose.commons.LoadingOverlay
-import com.formation.mvvm_compose.commons.getCredentials
-import com.formation.mvvm_compose.commons.saveCredentials
+import com.formation.mvvm_compose.utils.conditional
+import com.formation.mvvm_compose.utils.BasicScreen
+import com.formation.mvvm_compose.utils.LanguageChangeDropDownMenu
+import com.formation.mvvm_compose.utils.LoadingOverlay
+import com.formation.mvvm_compose.utils.getCredentials
+import com.formation.mvvm_compose.utils.saveCredentials
 import com.formation.domain.model.Credential
 import org.koin.androidx.compose.koinViewModel
 

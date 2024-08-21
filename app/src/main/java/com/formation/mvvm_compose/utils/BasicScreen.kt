@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.commons
+package com.formation.mvvm_compose.utils
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface

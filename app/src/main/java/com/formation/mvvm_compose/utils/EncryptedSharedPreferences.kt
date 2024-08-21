@@ -1,11 +1,11 @@
-package com.formation.mvvm_compose.commons
+package com.formation.mvvm_compose.utils
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.formation.mvvm_compose.commons.Constants.PASSWORD_KEY
-import com.formation.mvvm_compose.commons.Constants.USERNAME_KEY
+import com.formation.mvvm_compose.utils.Constants.PASSWORD_KEY
+import com.formation.mvvm_compose.utils.Constants.USERNAME_KEY
 import com.formation.domain.model.Credential
 
 private fun getEncryptedSharedPreferences(context: Context): SharedPreferences {

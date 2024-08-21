@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.commons
+package com.formation.mvvm_compose.utils
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

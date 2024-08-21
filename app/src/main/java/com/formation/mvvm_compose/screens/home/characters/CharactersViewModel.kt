@@ -9,6 +9,7 @@ import com.formation.domain.usecase.GetCharactersFavoritesListUseCase
 import com.formation.domain.usecase.GetCharactersListUseCase
 import com.formation.domain.usecase.SaveCharactersUseCase
 import com.formation.domain.usecase.ToggleCharacterFavoriteUseCase
+import com.formation.mvvm_compose.utils.getStringFromError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +21,6 @@ class CharactersViewModel(
     private val useCaseCharacterList: GetCharactersListUseCase,
     private val toggleCharacterFavoriteUseCase: ToggleCharacterFavoriteUseCase,
     private val saveCharactersUseCase: SaveCharactersUseCase,
-    private val getCharactersFavoritesListUseCase: GetCharactersFavoritesListUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CharacterListState> =
@@ -42,10 +42,7 @@ class CharactersViewModel(
                 }
                 .onFailure { error ->
                     _state.update {
-                        CharacterListState.Failure(
-                            (error as? ErrorType)?.getString() ?: error.message
-                            ?: error::class.java.name
-                        )
+                        CharacterListState.Failure(getStringFromError(error))
                     }
                 }
         }

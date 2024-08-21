@@ -1,4 +1,4 @@
-package com.formation.mvvm_compose.commons
+package com.formation.mvvm_compose.utils
 
 import android.app.LocaleManager
 import android.content.Context

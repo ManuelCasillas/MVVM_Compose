@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.formation.mvvm_compose.commons.removeCredentials
+import com.formation.mvvm_compose.utils.removeCredentials
 
 @Composable
 fun Settings(logout: () -> Unit) {

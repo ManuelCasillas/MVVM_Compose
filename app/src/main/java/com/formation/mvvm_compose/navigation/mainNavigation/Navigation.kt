@@ -21,6 +21,7 @@ import com.formation.mvvm_compose.settings.Settings
 import kotlinx.serialization.Serializable
 import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableEnum
 import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableType
+import com.formation.mvvm_compose.screens.home.characters.characterDetails.CharacterDetailsRoot
 import kotlin.reflect.typeOf
 
 @Composable
@@ -54,8 +55,8 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
                 // If you need to pass to another view a big enitity its better to call to DB again and only pass the ID.
 
 
-                val character: CharacterDetail =  character.let {
-                    CharacterDetail(
+                val character: MainRoutes.CharacterDetail =  character.let {
+                    MainRoutes.CharacterDetail(
                         it.id,
                         it.title,
                         it.description,
@@ -63,15 +64,15 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
                     )
                 }
 
-                navController.navigate(CharacterDetailScreen(character, CharacterEnum.DISNEY, characterID))
+                navController.navigate( MainRoutes.CharacterDetailScreen(character,  MainRoutes.CharacterEnum.DISNEY, characterID))
             })
         }
 
-        composable<CharacterDetailScreen>(
-            typeMap = CharacterDetailScreen.typeMap
+        composable<MainRoutes.CharacterDetailScreen>(
+            typeMap =  MainRoutes.CharacterDetailScreen.typeMap
         ) {
-            val args = it.toRoute<CharacterDetailScreen>()
-            DefaultScreen("detalle caracteres ${args.characterID} ${args.characterEnum}")
+           val args = it.toRoute<MainRoutes.CharacterDetailScreen>()
+            CharacterDetailsRoot(args = args)
         }
     }
 }
@@ -122,35 +123,6 @@ private fun NavGraphBuilder.composable(
     }
 }
 
-
-@Serializable
-data class CharacterDetailScreen(
-    val character: CharacterDetail,
-    val characterEnum: CharacterEnum,
-    val characterID: Int
-){
-    companion object {
-        val typeMap = mapOf(
-            typeOf<CharacterDetail>() to serializableType<CharacterDetail>(),
-            typeOf<CharacterEnum>() to serializableEnum<CharacterEnum>(),
-        )
-
-        fun from(savedStateHandle: SavedStateHandle) =
-            savedStateHandle.toRoute<CharacterDetail>(typeMap)
-    }
-}
-
-@Serializable
-data class CharacterDetail(
-    val id: Int,
-    val title: String?,
-    val description: String,
-    val thumbnail: String
-)
-
-enum class CharacterEnum {
-    DISNEY
-}
 
 @Composable
 fun DefaultScreen(screenName: String){

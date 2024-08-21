@@ -5,11 +5,13 @@ import com.formation.data.dataSource.createRetrofit
 import com.formation.data.database.CharacterDatabase
 import com.formation.data.repository.CharacterRepositoryImpl
 import com.formation.domain.repository.CharacterRepository
+import com.formation.domain.usecase.GetCharacterByIDUseCase
 import com.formation.domain.usecase.GetCharactersFavoritesListUseCase
 import com.formation.domain.usecase.GetCharactersListUseCase
 import com.formation.domain.usecase.SaveCharactersUseCase
 import com.formation.domain.usecase.ToggleCharacterFavoriteUseCase
 import com.formation.mvvm_compose.screens.home.characters.CharactersViewModel
+import com.formation.mvvm_compose.screens.home.characters.characterDetails.CharactersDetailsViewModel
 import com.formation.mvvm_compose.screens.login.LoginViewModel
 import com.formation.mvvm_compose.screens.main.MainViewModel
 import org.koin.dsl.module
@@ -19,7 +21,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 val viewModelModules = module {
     viewModel { LoginViewModel() }
     viewModel { MainViewModel() }
-    viewModel { CharactersViewModel(get(),get(),get(),get()) }
+    viewModel { CharactersViewModel(get(),get(),get()) }
+    viewModel { CharactersDetailsViewModel(get()) }
 }
 
 val useCaseModules = module {
@@ -27,6 +30,7 @@ val useCaseModules = module {
     factory { ToggleCharacterFavoriteUseCase(get()) }
     factory { SaveCharactersUseCase(get()) }
     factory { GetCharactersFavoritesListUseCase(get()) }
+    factory { GetCharacterByIDUseCase(get()) }
 }
 
 val repositoryModules = module {

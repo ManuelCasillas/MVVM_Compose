@@ -7,4 +7,5 @@ interface CharacterRepository {
     suspend fun saveCharacters(characters: List<Character>)
     suspend fun updateCharacterFavorite(character: Character)
     suspend fun getFavoritesCharacters(): Result<List<Character>>
+    suspend fun getCharacterById(characterId: Int): Result<Character>
 }

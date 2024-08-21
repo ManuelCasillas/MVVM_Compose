@@ -3,6 +3,7 @@ package com.formation.data.repository
 import com.formation.data.api.CharactersApi
 import com.formation.data.dataSource.makeRequest
 import com.formation.data.database.CharacterDao
+import com.formation.data.database.toCharacter
 import com.formation.data.database.toCharactersList
 import com.formation.data.database.toRoomCharacter
 import com.formation.data.database.toRoomCharacters
@@ -41,5 +42,10 @@ class CharacterRepositoryImpl(
     override suspend fun getFavoritesCharacters(): Result<List<Character>> =
         withContext(Dispatchers.IO) {
             Result.success(characterDao.getFavorites().toCharactersList())
+        }
+
+    override suspend fun getCharacterById(characterId: Int): Result<Character> =
+        withContext(Dispatchers.IO) {
+            Result.success(characterDao.findById(characterId).toCharacter())
         }
 }
