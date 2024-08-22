@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.androidx.appCompat)
 
+    implementation(libs.androidx.compose.animation)
 
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)

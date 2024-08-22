@@ -1,6 +1,10 @@
 package com.formation.mvvm_compose.screens.home.characters
 
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,8 +32,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.formation.domain.model.Character
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun MarvelListItem(
+fun SharedTransitionScope.MarvelListItem(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     marvelItem: Character,
     onCharacterFavoriteClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -54,6 +56,13 @@ fun MarvelListItem(
                     .fillMaxWidth()
                     .background(Color.LightGray)
                     .aspectRatio(1f)
+                    .sharedElement(
+                        state = rememberSharedContentState(key = "image/${marvelItem.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 500)
+                        }
+                    )
             )
         }
         Row(
@@ -66,6 +75,14 @@ fun MarvelListItem(
                 modifier = Modifier
                     .padding(8.dp, 16.dp)
                     .weight(1f)
+                    .sharedElement(
+                        state = rememberSharedContentState(key = "text/${marvelItem.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 500)
+                        }
+                    )
+
             )
 
             IconToggleButton(
@@ -74,17 +91,27 @@ fun MarvelListItem(
             ) {
                 Crossfade(targetState = characterMarkAsFavroite, label = "") { isFavorite ->
                     onCharacterFavoriteClicked(isFavorite)
-                    if (isFavorite) {
-                        Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = null
-                        )
+
+                    val favoriteImage = if (isFavorite) {
+                        Icons.Default.Favorite
                     } else {
-                        Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = null
-                        )
+                        Icons.Default.FavoriteBorder
                     }
+
+                    Icon(
+                        imageVector = favoriteImage,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .sharedElement(
+                                state = rememberSharedContentState(key = "icon/${marvelItem.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 500)
+                                }
+                            )
+                    )
+
+
                 }
             }
         }

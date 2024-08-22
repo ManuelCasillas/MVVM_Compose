@@ -42,6 +42,10 @@ sealed class MainRoutes {
     }
 
 
+    @Serializable
+    data object CharacterScreen
+
+
 
 
 }
