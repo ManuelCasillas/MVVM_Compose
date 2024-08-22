@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 
 fun NavHostController.navigatePoppingUpToStartDestination(route: String) {
     navigate(route) {
+        //This made that when you navigate between screen in bottom choice, it remains the same screen when you came back.
         popUpTo(graph.findStartDestination().id) {
             saveState = true
         }

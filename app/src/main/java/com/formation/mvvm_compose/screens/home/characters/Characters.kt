@@ -1,5 +1,9 @@
+
 package com.formation.mvvm_compose.screens.home.characters
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,15 +32,22 @@ import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Loa
 import com.formation.mvvm_compose.screens.home.characters.CharacterListState.Success
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun CharactersRoot(vm: CharactersViewModel = koinViewModel(), onCharacterClickNavigation: (character: Character, characterId: Int)-> Unit){
+fun SharedTransitionScope.CharactersRoot(
+    vm: CharactersViewModel = koinViewModel(),
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    onCharacterClickNavigation: (character: Character, characterId: Int)-> Unit
+){
     val state = vm.state.collectAsState().value
-    Characters(state,  vm::initViewModel, vm::reloadButtonClicked, vm::characterFavoriteClicked, onCharacterClickNavigation)
+    Characters(state, animatedVisibilityScope, vm::initViewModel, vm::reloadButtonClicked, vm::characterFavoriteClicked, onCharacterClickNavigation)
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun Characters(
+fun SharedTransitionScope.Characters(
     state: CharacterListState,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     initViewModel: () -> Unit,
     reloadButtonClicked: () -> Unit,
     characterFavoriteClicked: (Character, Boolean) -> Unit,
@@ -49,7 +60,7 @@ fun Characters(
 
     when (state) {
         is Loading -> { ShowLoadingView() }
-        is Success -> { CharactersList(state.list, characterFavoriteClicked, onCharacterClickNavigation) }
+        is Success -> { CharactersList(animatedVisibilityScope, state.list, characterFavoriteClicked, onCharacterClickNavigation) }
         is Failure -> { ReloadButton(reloadButtonClicked) }
     }
 }
@@ -66,8 +77,10 @@ private fun ShowLoadingView() {
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun CharactersList(
+private fun SharedTransitionScope.CharactersList(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     characterList: List<Character>,
     characterFavoriteClicked: (Character, Boolean) -> Unit,
     onCharacterClickNavigation: (character: Character, characterId: Int) -> Unit,
@@ -84,6 +97,7 @@ private fun CharactersList(
             ) {
                 items(characterList) { character ->
                     MarvelListItem(
+                        animatedVisibilityScope= animatedVisibilityScope,
                         marvelItem = character,
                         onCharacterFavoriteClicked = { isFavorite ->
                             characterFavoriteClicked(character, isFavorite)
