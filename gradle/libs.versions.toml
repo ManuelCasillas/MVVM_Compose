@@ -27,6 +27,11 @@ retrofit-gson = "2.9.0"
 okhttp3 = "3.12.1"
 roomVersion = "2.6.1"
 kotlinKsp = "1.9.22-1.0.17" #CAUTION: The first one number, must be the same that kotlin version
+mockitoVersion = "5.6.0"
+mockitoKotlinVersion = "5.1.0"
+kotlinCoroutinesTestVersion = "1.7.3"
+coreKtxVersion = "1.6.1"
+junitKtxVersion = "1.2.1"
 
 
 [libraries]
@@ -64,6 +69,12 @@ retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 okhttp3 = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoVersion" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutinesTestVersion" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtxVersion" }
 
 
 [plugins]
@@ -118,4 +129,10 @@ squareup-retrofit = [
     "retrofit2",
     "retrofit-gson",
     "okhttp3"
+]
+
+test-kotlin = [
+    "mockito",
+    "mockito-kotlin",
+    "kotlin-coroutines-test"
 ]

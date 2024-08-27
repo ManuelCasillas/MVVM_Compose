@@ -53,12 +53,17 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appCompat)
     implementation(libs.material)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
+
+    testImplementation(libs.bundles.test.kotlin)
+
 
     //Bundle
     implementation(libs.bundles.squareup.retrofit)
