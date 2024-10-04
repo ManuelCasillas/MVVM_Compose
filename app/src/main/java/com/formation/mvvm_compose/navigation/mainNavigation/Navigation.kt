@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -18,11 +17,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.formation.mvvm_compose.screens.home.characters.CharactersRoot
 import com.formation.mvvm_compose.settings.Settings
-import kotlinx.serialization.Serializable
-import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableEnum
-import com.formation.mvvm_compose.navigation.mainNavigation.CustomNavType.serializableType
 import com.formation.mvvm_compose.screens.home.characters.characterDetails.CharacterDetailsRoot
-import kotlin.reflect.typeOf
 
 @Composable
 fun Navigation(navController: NavHostController, logout: () -> Unit) {
@@ -33,8 +28,8 @@ fun Navigation(navController: NavHostController, logout: () -> Unit) {
         startDestination = Feature.CHARACTERS.route,
     ) {
         charactersNav(navController)
-        comicsNav(navController)
-        eventsNav(navController)
+        comicsNav()
+        eventsNav()
         composable(NavCommand.ContentType(Feature.SETTINGS)) {
             Settings(logout)
         }
@@ -55,7 +50,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
                 // If you need to pass to another view a big enitity its better to call to DB again and only pass the ID.
 
 
-                val character: MainRoutes.CharacterDetail =  character.let {
+                val characterNavigation: MainRoutes.CharacterDetail =  character.let {
                     MainRoutes.CharacterDetail(
                         it.id,
                         it.title,
@@ -64,7 +59,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
                     )
                 }
 
-                navController.navigate( MainRoutes.CharacterDetailScreen(character,  MainRoutes.CharacterEnum.DISNEY, characterID))
+                navController.navigate( MainRoutes.CharacterDetailScreen(characterNavigation,  MainRoutes.CharacterEnum.DISNEY, characterID))
             })
         }
 
@@ -77,7 +72,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.comicsNav(navController: NavController) {
+private fun NavGraphBuilder.comicsNav() {
     navigation(
         startDestination = NavCommand.ContentType(Feature.COMICS).route,
         route = Feature.COMICS.route
@@ -93,7 +88,7 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.eventsNav(navController: NavController) {
+private fun NavGraphBuilder.eventsNav() {
     navigation(
         startDestination = NavCommand.ContentType(Feature.EVENTS).route,
         route = Feature.EVENTS.route
