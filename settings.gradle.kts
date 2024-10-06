@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "MVVM_Compose"
 include(":app")
- 
+include(":data")
+include(":domain")

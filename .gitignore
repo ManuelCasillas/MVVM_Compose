@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/data/schemas/com.formation.data.database.CharacterDatabase/1.json
+/app/src/main/java/com/formation/mvvm_compose/utils/Playground.kt
+/.idea/inspectionProfiles/Project_Default.xml
+/other.xml

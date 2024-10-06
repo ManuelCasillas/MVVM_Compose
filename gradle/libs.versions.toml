@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.0"
-kotlin = "1.9.0"
+kotlin = "1.9.22"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -8,6 +8,31 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.04.01"
+navigationCompose = "2.8.0-beta03"
+serialization = "1.6.3"
+lifecycleViewmodel = "2.5.0"
+material-icons = "1.3.1"
+coil = "2.2.0"
+koin = "3.4.1"
+appCompat = "1.7.0"
+constraintlayout = "1.0.1"
+splash = "1.0.1"
+datastore = "1.0.0"
+securityCripto = "1.1.0-alpha03"
+accompanist_version = '0.28.0'
+materialVersion = "1.12.0"
+jetbrainsKotlinJvmVersion = "1.9.0"
+retrofit2 = "2.9.0"
+retrofit-gson = "2.9.0"
+okhttp3 = "3.12.1"
+roomVersion = "2.6.1"
+kotlinKsp = "1.9.22-1.0.17" #CAUTION: The first one number, must be the same that kotlin version
+mockitoVersion = "5.6.0"
+mockitoKotlinVersion = "5.1.0"
+kotlinCoroutinesTestVersion = "1.7.3"
+coreKtxVersion = "1.6.1"
+junitKtxVersion = "1.2.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -17,6 +42,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material-icons" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -24,8 +50,89 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-lifecyle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref ="lifecycleViewmodel" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
+koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
+androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompat"}
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
+androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "securityCripto" }
+google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist_version" }
+google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist_version" }
+google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist_version" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-gson" }
+okhttp3 = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoVersion" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutinesTestVersion" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtxVersion" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvmVersion" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlinKsp" }
 
+
+
+[bundles]
+androidx-ui = [
+    "androidx-ui",
+    "androidx-ui-graphics",
+    "androidx-ui-tooling-preview",
+    "androidx-material3",
+    "coil-compose",
+    "androidx-compose-material-icons",
+    "androidx-constraintlayout",
+    "androidx-splash"
+]
+
+androidx-debug-ui = [
+    "androidx-ui-tooling",
+    "androidx-ui-test-manifest"
+]
+
+androidx-test-junit = [
+    "androidx-junit",
+    "androidx-ui-test-junit4"
+]
+
+androidx-lifecyle =  [
+    "androidx-lifecyle-viewmodel",
+    "androidx-lifecycle-runtime-ktx"
+]
+
+androidx-datastoreCrypto = [
+    "androidx-datastore",
+    "androidx-security"
+]
+
+google-accompanist = [
+    "google-accompanist-pager",
+    "google-accompanist-pager-indicators",
+    "google-accompanist-systemuicontroller"
+]
+
+squareup-retrofit = [
+    "retrofit2",
+    "retrofit-gson",
+    "okhttp3"
+]
+
+test-kotlin = [
+    "mockito",
+    "mockito-kotlin",
+    "kotlin-coroutines-test"
+]
