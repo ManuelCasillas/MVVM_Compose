@@ -43,6 +43,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -199,7 +200,8 @@ fun Login(
                    },
                    modifier = Modifier
                        .align(Alignment.CenterHorizontally)
-                       .fillMaxWidth(),
+                       .fillMaxWidth()
+                       .testTag("LoginButton"),
 
                    ) {
                    Text(text = stringResource(id = R.string.login_button))
@@ -317,7 +319,9 @@ private fun StateUserTextField(
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Email
-        )
+        ),
+        modifier = Modifier
+            .testTag("userTextField"), // Add test tag for user text field
     )
 }
 
@@ -356,6 +360,7 @@ private fun StatePasswordTextField(
             IconToggleButton(
                 checked = passwordVisible,
                 onCheckedChange = { passwordVisible = it },
+                modifier = Modifier.testTag("passwordVisibilityToggle") // Add tag for the visibility toggle
             ) {
                 Crossfade(targetState = passwordVisible) { visible ->
                     if (visible) {
@@ -375,7 +380,9 @@ private fun StatePasswordTextField(
             }
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+        modifier = Modifier
+            .testTag("passwordTextField"), // Add test tag for password text field
     )
 }
 
