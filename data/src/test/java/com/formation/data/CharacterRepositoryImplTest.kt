@@ -6,13 +6,9 @@ import com.formation.data.database.toCharacter
 import com.formation.data.database.toCharactersList
 import com.formation.data.database.toRoomCharacter
 import com.formation.data.database.toRoomCharacters
-import com.formation.data.model.ApiCharacter
-import com.formation.data.model.ApiResponse
 import com.formation.data.model.toListCharacter
 import com.formation.data.repository.CharacterRepositoryImpl
-import com.formation.domain.model.Character
 import com.formation.mocks.mockApiCharacter
-import com.formation.mocks.mockApiData
 import com.formation.mocks.mockApiResponse
 import com.formation.mocks.mockCharacter
 import com.formation.mocks.mockCharacterRoom
@@ -118,7 +114,3 @@ class CharacterRepositoryImplTest {
         assertEquals(mockCharacterRoom.toCharacter(), result.getOrNull())
     }
 }
-
-
-
-
