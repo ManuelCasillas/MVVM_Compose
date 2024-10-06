@@ -60,12 +60,12 @@ fun MarvelApp(appState: MarvelAppState = rememberMarvelAppState(), logout: () ->
                     )
                 },
                 bottomBar = {
-//                    if (appState.showBottomNavigation) { // When you customize this one hiding and showing, add an undesired blink at bottom bar
+                    if (appState.showBottomNavigation) { // When you customize this one hiding and showing, add an undesired blink at bottom bar
                         AppBottomNavigation(
                             bottomNavOptions = MarvelAppState.BOTTOM_NAV_OPTIONS,
                             currentRoute = appState.currentRoute,
                             onNavItemClick = { appState.onNavItemClick(it) })
-//                    }
+                    }
                 }
             ) { padding ->
                 Box(modifier = Modifier.padding(padding)) {

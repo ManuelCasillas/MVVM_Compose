@@ -88,7 +88,7 @@ fun Login(
     onLoginClick: (user: String, pass: String) -> Unit,
     userValueChanged: () -> Unit,
     passValueChanged: () -> Unit,
-    navigateLoading: () -> Unit,
+    navigateLoading: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -224,19 +224,10 @@ fun Login(
                            }
                        }
                    }) {
-                   Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
+                   Toast.makeText(context, R.string.working_on_it, Toast.LENGTH_SHORT).show()
                }
            }
        }
-
-//       Text("Login Social", modifier = Modifier
-//           .padding(top = 16.dp)
-//           .constrainAs(loginText) {
-//               top.linkTo(loginBox.bottom)
-//               start.linkTo(parent.start)
-//               end.linkTo(parent.end)
-//           }, color = Color.Gray)
-
 
        Box(
            modifier = Modifier
@@ -281,7 +272,7 @@ fun Login(
                        }
                    }
                }, center = true) {
-               Toast.makeText(context, "Estamos trabajando en ello", Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, R.string.working_on_it, Toast.LENGTH_SHORT).show()
            }
        }
 
@@ -300,12 +291,12 @@ fun Login(
 private fun StateUserTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    isError: Boolean,
+    isError: Boolean
 ) {
     TextField(
         value = value,
-        label = { Text(text = "Usuario") },
-        placeholder = { Text(text = "Manuel@gmail.com") },
+        label = { Text(text = stringResource(id = R.string.login_user_label)) },
+        placeholder = { Text(text = stringResource(id = R.string.login_user_placeHolder)) },
         onValueChange = onValueChange,
         isError = isError,
         singleLine = true,
@@ -334,7 +325,7 @@ private fun StateUserTextField(
 private fun StatePasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    isError: Boolean,
+    isError: Boolean
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
@@ -389,7 +380,7 @@ private fun StatePasswordTextField(
 }
 
 @Composable
-fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = false, onTextClick: () -> Unit, ) {
+fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = false, onTextClick: () -> Unit) {
 
     var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -423,9 +414,8 @@ fun ClickablePartOfText(annotatedString: AnnotatedString, center: Boolean = fals
                             .firstOrNull { annotation ->
                                 annotation.tag.startsWith(Constants.CLICKABLE_TAG)
                             }
-                            ?.let { annotation ->
-                                val userId =
-                                    annotation.item  // could be use when a annotated string have more than one tag. Could it be differentiate with a when
+                            ?.let {
+                               // annotation -> val userId = annotation.item  // could be use when a annotated string have more than one tag. Could it be differentiate with a when
                                 onTextClick()
                             }
                     }

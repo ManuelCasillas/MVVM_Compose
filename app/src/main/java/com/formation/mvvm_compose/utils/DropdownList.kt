@@ -92,7 +92,7 @@ fun DropdownList(itemList: List<String>, selectedIndex: Int, modifier: Modifier,
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = item,)
+                                Text(text = item)
                             }
                         }
 
@@ -101,5 +101,4 @@ fun DropdownList(itemList: List<String>, selectedIndex: Int, modifier: Modifier,
             }
         }
     }
-
 }

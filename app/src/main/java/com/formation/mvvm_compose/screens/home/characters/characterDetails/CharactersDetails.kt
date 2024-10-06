@@ -124,4 +124,3 @@ fun ShowCharacterInfo(characterInfo: Character) {
             Text(msg, textAlign = TextAlign.Center)
         }
     }
-

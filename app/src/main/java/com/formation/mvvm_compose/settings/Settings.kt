@@ -14,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.formation.mvvm_compose.R
 import com.formation.mvvm_compose.utils.removeCredentials
 
 @Composable
@@ -38,10 +40,10 @@ fun LogoutConfirmation(logout: () -> Unit) {
                 showDialog = false
             },
             title = {
-                Text(text = "Logout Confirmation")
+                Text(text = stringResource(id = R.string.settings_logout_confirmation_title))
             },
             text = {
-                Text("Are you sure you want to logout?")
+                Text(stringResource(id = R.string.settings_logout_confirmation_msg))
             },
             confirmButton = {
                 Button(
@@ -50,7 +52,7 @@ fun LogoutConfirmation(logout: () -> Unit) {
                         showDialog = false
                         logout()
                     }) {
-                    Text("Logout")
+                    Text(stringResource(id =R.string.settings_logout_button))
                 }
             },
             dismissButton = {
@@ -58,13 +60,13 @@ fun LogoutConfirmation(logout: () -> Unit) {
                     onClick = {
                         showDialog = false
                     }) {
-                    Text("Cancel")
+                    Text(stringResource(id =R.string.settings_logout_cancel_button))
                 }
             }
         )
     }
 
     Button(onClick = { showDialog = true }) {
-        Text("Logout")
+        Text(stringResource(id =R.string.settings_logout_button))
     }
 }
